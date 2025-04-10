@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input {
+            padding: 10px;
+            margin-bottom: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .toggle-btn {
+            margin: 10px 0;
+            text-align: center;
+            cursor: pointer;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 id="formTitle">User Registration</h1>
+        <form id="authForm">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirmPassword" id="confirmPasswordLabel">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword">
+
+            <button type="submit" id="submitBtn">Register</button>
+        </form>
+        <div class="toggle-btn" id="toggleForm">Already have an account? Login</div>
+    </div>
+    
+    <script>
+        const authForm = document.getElementById('authForm');
+        const formTitle = document.getElementById('formTitle');
+        const confirmPasswordLabel = document.getElementById('confirmPasswordLabel');
+        const confirmPasswordInput = document.getElementById('confirmPassword');
+        const submitBtn = document.getElementById('submitBtn');
+        const toggleForm = document.getElementById('toggleForm');
+
+        let isRegistering = true;
+
+        toggleForm.addEventListener('click', function() {
+            isRegistering = !isRegistering;
+
+            if (isRegistering) {
+                formTitle.textContent = 'User Registration';
+                confirmPasswordLabel.style.display = 'block';
+                confirmPasswordInput.style.display = 'block';
+                submitBtn.textContent = 'Register';
+            } else {
+                formTitle.textContent = 'User Login';
+                confirmPasswordLabel.style.display = 'none';
+                confirmPasswordInput.style.display = 'none';
+                submitBtn.textContent = 'Login';
+            }
+        });
+
+        authForm.addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            if (isRegistering) {
+                const confirmPassword = confirmPasswordInput.value;
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match!');
+                    return;
+                }
+                alert('Registration successful!');
+            } else {
+                alert('Login successful!');
+            }
+
+            window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

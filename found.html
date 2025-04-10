@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Found Items</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            text-align:center;
+        }
+        form {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input, select, button {
+            padding: 10px;
+            margin-bottom: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        img {
+            max-width: 100px;
+            max-height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>发布找到的物品</h1>
+        <form id="foundItemForm">
+            <label for="foundItemName">物品名称:</label>
+            <input type="text" id="foundItemName" name="foundItemName" required>
+            
+            <label for="foundItemLocation">寻得地点:</label>
+            <input type="text" id="foundItemLocation" name="foundItemLocation" required>
+            
+            <label for="foundItemDate">日期:</label>
+            <input type="date" id="foundItemDate" name="foundItemDate" required>
+            
+            <label for="foundItemCategory">类别:</label>
+            <select id="foundItemCategory" name="foundItemCategory" required>
+                <option value="电子设备">电子设备</option>
+                <option value="服装">服装</option>
+                <option value="配件">配件</option>
+                <option value="文件">文件</option>
+                <option value="其他">其他</option>
+            </select>
+
+            <label for="contactNumber">联系电话</label>
+            <input type="text" id="contactNumber" name="contactNumber" required>
+
+            <label for="foundItemImage">上传图片:</label>
+            <input type="file" id="foundItemImage" name="foundItemImage" accept="image/*">
+            
+            <button type="submit">提交</button>
+        </form>
+
+        <h2>找到的物品列表</h2>
+        <table id="foundItemsTable">
+            <thead>
+                <tr>
+                    <th>物品名称</th>
+                    <th>寻得地点</th>
+                    <th>日期</th>
+                    <th>类别</th>
+                    <th>联系电话</th>
+                    <th>图片</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+
+    <script>
+        const foundItemForm = document.getElementById('foundItemForm');
+        const foundItemsTable = document.getElementById('foundItemsTable').querySelector('tbody');
+
+        foundItemForm.addEventListener('submit', function(event) {
+            event.preventDefault(); // 防止页面刷新
+
+            const itemName = document.getElementById('foundItemName').value;
+            const itemLocation = document.getElementById('foundItemLocation').value;
+            const itemDate = document.getElementById('foundItemDate').value;
+            const itemCategory = document.getElementById('foundItemCategory').value;
+            const contontNumber = document.getElementById('contactNumber').value;
+            const itemImage = document.getElementById('foundItemImage').files[0];
+
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${itemName}</td>
+                <td>${itemLocation}</td>
+                <td>${itemDate}</td>
+                <td>${itemCategory}</td>
+                <td>${contontNumber}</td>
+                <td>
+                    ${itemImage ? `<img src="${URL.createObjectURL(itemImage)}" alt="Item Image">` : '无图片'}
+                </td>
+                <td>
+                    <button class="delete-btn" data-row-id="${row.id}">删除</button>
+                </td>
+            `;
+
+            foundItemsTable.appendChild(row);
+            foundItemForm.reset();
+        });
+
+        foundItemsTable.addEventListener('click', function(event) {
+            if (event.target.classList.contains('delete-btn')) {
+                const row = event.target.closest('tr');
+                row.remove();
+            }
+        });
+    </script>
+</body>
+</html>
